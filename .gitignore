@@ -1,2 +1,2 @@
 vim/**
-!vim/autoload/**
+!vim/after/plugin/lightline.vim
