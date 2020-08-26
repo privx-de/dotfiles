@@ -1,2 +1,4 @@
-vim/**
-!vim/after/plugin/lightline.vim
+.*
+!.gitignore
+vim/autoload/plug.vim
+vim/plugged/**
