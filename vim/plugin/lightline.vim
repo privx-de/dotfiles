@@ -11,9 +11,9 @@ let g:lightline.active = {
   \     ['lineinfo'],
   \     ['percent'],
   \     ['fileformat', 'fileencoding', 'filetype'],
-  \     [ 'coc_errors', 'coc_warnings', 'coc_ok' ], [ 'coc_status' ]
+  \     ['coc_errors', 'coc_warnings', 'coc_ok' ], [ 'coc_status' ]
   \   ]
   \ }
 
-" register coc compoments:
+" register coc compoments
 call lightline#coc#register()

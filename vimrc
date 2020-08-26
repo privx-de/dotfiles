@@ -66,7 +66,10 @@ Plug 'ueaner/molokai'
 " Vim-Rainbow - https://github.com/frazrepo/vim-rainbow
 "
 Plug 'frazrepo/vim-rainbow'
+Plug 'chrisbra/unicode.vim'
 
+" https://github.com/plasticboy/vim-markdown
+Plug 'plasticboy/vim-markdown'
 " Initialize plugin system
 call plug#end()
 
