@@ -2,7 +2,7 @@
 " vim/after/plugin/lightline.vim
 "
 let g:lightline = {
-  \   'colorscheme': 'molokail',
+  \   'colorscheme': 'molokai',
   \   'active': {
   \     'left': [
   \       ['mode', 'paste'],
