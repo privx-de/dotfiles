@@ -74,16 +74,18 @@ call plug#end()
 " Settings --------------------------------------------------------------------
 "
 
-set cmdheight=2    " Better display for messages
-set colorcolumn=80 " Show vertical line at 80 chars
-set fillchars=""   " Remove the ugly splits separator
-set hlsearch       " Highlight search terms
-set incsearch      " Show search matches as you type
-set laststatus=2   " Always show statusline
-set noswapfile     " Turn off swap file
-set nowrap         " Don't wrap lines
-set termguicolors  " True colors
-set updatetime=100 " Smaller updatetime for CursorHold
+set cmdheight=2                " Better display for messages
+set colorcolumn=80             " Show vertical line at 80 chars
+set fillchars=""               " Remove the ugly splits separator
+set hlsearch                   " Highlight search terms
+set incsearch                  " Show search matches as you type
+set laststatus=2               " Always show statusline
+set noswapfile                 " Turn off swap file
+set nowrap                     " Don't wrap lines
+set termguicolors              " True colors
+set updatetime=100             " Smaller updatetime for CursorHold
+set wildmode=longest,list,full " Better better autocomplete
+set wildmenu                   " Autocomplete menu
 " highlight VertSplit cterm=NONE
 
 "
