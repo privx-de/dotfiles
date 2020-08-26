@@ -1,6 +1,10 @@
 "
 " vim/after/plugin/lightline.vim
 "
+
+" With Lightline hide mode
+set noshowmode
+
 let g:lightline = { 'colorscheme': 'molokai' }
 let g:lightline.active = {
   \   'left': [
