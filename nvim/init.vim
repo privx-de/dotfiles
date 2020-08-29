@@ -58,6 +58,9 @@ let g:airline#extensions#tabline#buffer_nr_show = 1 " Show buffer number
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" Disable line numbers in fzf
+autocmd! FileType fzf setlocal nonumber norelativenumber
+
 " Shortcuts
 nnoremap <C-b> :Buffers<Cr>
 nnoremap <C-p> :Files<Cr>
@@ -68,6 +71,24 @@ nnoremap <C-p> :Files<Cr>
 """
 
 Plug 'svermeulen/vim-yoink'
+
+let g:yoinkSavePersistently = 1 " Save yank history
+
+" FZF for Yanks
+function! GetYanks()
+  redir => cout
+  silent Yanks
+  redir END
+  return split(cout, "\n")[1:]
+endfunction
+
+function! UseYanks(line)
+  call yoink#rotateThenPrint(a:line[0])
+endfunction
+
+command! MyYanks call fzf#run(fzf#wrap({
+  \ 'source': GetYanks(),
+  \ 'sink': function('UseYanks')}))
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -171,4 +192,8 @@ set wildmode=longest:full " Tab to longest match
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Shortcuts
+"""
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """
