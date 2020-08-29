@@ -1,3 +1,5 @@
+set nocompatible
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Install vim-plug
 """
@@ -5,11 +7,12 @@
 let plug_autoload_path = '/site/autoload/plug.vim'
 if empty(glob(stdpath('data') .  plug_autoload_path))
   execute '!curl -fLo' stdpath('data') . plug_autoload_path '--create-dirs'
-        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall
 endif
 
 """
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Start vim-plug
 """
@@ -55,6 +58,24 @@ let g:airline#extensions#tabline#buffer_nr_show = 1 " Show buffer number
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" Shortcuts
+nnoremap <C-b> :Buffers<Cr>
+nnoremap <C-p> :Files<Cr>
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Yoink
+"""
+
+Plug 'svermeulen/vim-yoink'
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" GIT
+
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ NCM2
@@ -85,8 +106,33 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 """ NCM2 Sources
 """
 
+Plug 'Shougo/neco-vim'
 Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-github'
 Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-vim'
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" NCM2 vim-lsp
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'ncm2/ncm2-vim-lsp'
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Better Whitespace
+"""
+
+Plug 'ntpeters/vim-better-whitespace'
+let g:better_whitespace_enabled=1 " Enable better whitespace by default
+let g:strip_only_modified_lines=1 " Strip only modified lines
+let g:strip_whitespace_confirm=0  " Do not confirm
+let g:strip_whitespace_on_save=1  " Strip Whitespace on save
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -104,13 +150,25 @@ call plug#end()
 " Set colorscheme
 colorscheme onehalfdark
 
-set cursorline " Enable cursorline
-set noshowmode " Hide vim mode
+" Spaces and tabs
+set expandtab     " Tabs are spaces
+set tabstop=2     " Number of visual spaces per tab
+set softtabstop=2 " Number of spaces in tab when editing
+set shiftwidth=2  " Number of spaces to use autoindent
+
+" Tempfiles
+set nobackup   " No backup file
+set noswapfile " No swap file
+
+set cursorline            " Enable cursorline
+set noshowmode            " Hide vim mode
+set nowrap                " Don't wrap lines
+set number                " Enable line numbers
+set relativenumber
+set wildmenu              " Enable command completion
+set wildmode=longest:full " Tab to longest match
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Shortcuts
 """
-
-" FZF project file search
-nnoremap <C-p> :Files<Cr>
