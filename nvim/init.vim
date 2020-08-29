@@ -60,10 +60,28 @@ Plug 'junegunn/fzf.vim'
 
 " Disable line numbers in fzf
 autocmd! FileType fzf setlocal nonumber norelativenumber
+  \ | call rainbow#inactivate()
 
 " Shortcuts
 nnoremap <C-b> :Buffers<Cr>
 nnoremap <C-p> :Files<Cr>
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" FZF most recently used files
+"""
+
+Plug 'pbogut/fzf-mru.vim'
+
+let g:fzf_mru_relative = 1 " Only relative files
+
+""" MyRmu with bat preview
+let g:my_mru_preview = '--preview="' . stdpath('data')
+  \ . '/plugged/fzf.vim/bin/preview.sh {}"'
+command! MyMru execute 'FZFMru' . g:my_mru_preview
+
+" Shortcut
+nnoremap <C-m> :MyMru<Cr>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -89,10 +107,12 @@ endfunction
 command! MyYanks call fzf#run(fzf#wrap({
   \ 'source': GetYanks(),
   \ 'sink': function('UseYanks')}))
+nnoremap <C-y> :MyYanks<Cr>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" GIT
+""" GIT Plugins
+"""
 
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -136,6 +156,7 @@ Plug 'ncm2/ncm2-vim'
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ NCM2 vim-lsp
+
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
@@ -151,6 +172,15 @@ let g:better_whitespace_enabled=1 " Enable better whitespace by default
 let g:strip_only_modified_lines=1 " Strip only modified lines
 let g:strip_whitespace_confirm=0  " Do not confirm
 let g:strip_whitespace_on_save=1  " Strip Whitespace on save
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Rainbow Parentheses
+"""
+
+Plug 'frazrepo/vim-rainbow'
+
+" let g:rainbow_active = 1 " Enable rainbow parentheses
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -193,6 +223,9 @@ set wildmode=longest:full " Tab to longest match
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Shortcuts
 """
+
+" Clear search
+noremap <silent> <c-_> :let @/ = ""<CR>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
