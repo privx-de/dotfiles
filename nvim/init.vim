@@ -1,4 +1,5 @@
 set nocompatible
+set hidden
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Install vim-plug
@@ -155,12 +156,76 @@ Plug 'ncm2/ncm2-vim'
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" NCM2 vim-lsp
+""" ncm2 Snippet Support
+"""
 
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'ncm2/ncm2-vim-lsp'
+Plug 'SirVer/ultisnips'
+Plug 'ncm2/ncm2-ultisnips'
+
+" Enter key trigger snippet expansion
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" ExpandTrigger default conflicts with pum movement
+let g:UltiSnipsExpandTrigger = '\<Plug>(placeholder)'
+let g:UltiSnipsJumpForwardTrigger  = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" LanguageClient-neovim
+"""
+
+Plug 'autozimu/LanguageClient-neovim', {
+  \   'branch': 'next',
+  \   'do': 'bash install.sh',
+  \ }
+
+let g:LanguageClient_autoStart = 1          " Enable autostart
+" let g:LanguageClient_completionPreferTextEdit = 1
+let g:LanguageClient_diagnosticsEnable = 0  " Disable diagnostic
+let g:LanguageClient_hasSnippetSupport = 1  " Enable snippet support
+
+" Project root makers
+let g:LanguageClient_rootMarkers = {
+  \   'terraform': ['.terraform', '.terraform.d']
+  \ }
+
+" Language server commands
+let g:LanguageClient_serverCommands = {
+  \   'terraform': ['terraform-lsp'],
+  \   'yaml': ['yaml-language-server', '--stdio'],
+  \   'yaml.ansible': ['yaml-language-server', '--stdio'],
+  \ }
+
+" Set yaml schema
+function! YamlSetSchema()
+  if &ft =~# '^yaml'
+    let config = json_decode(system("cat ~/.config/nvim/yaml/default.json"))
+    call LanguageClient#Notify('workspace/didChangeConfiguration', { 'settings': config })
+  endif
+endfunction
+
+" Trigger yaml schema
+augroup LanguageClient_config
+  autocmd!
+  autocmd User LanguageClientStarted call YamlSetSchema()
+augroup END
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Ansible
+"""
+
+Plug 'pearofducks/ansible-vim'
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Terraform
+"""
+
+Plug 'hashivim/vim-terraform'
+
+let g:terraform_align=1 " Align settings automatically
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -200,7 +265,8 @@ call plug#end()
 
 " Set colorscheme
 colorscheme onehalfdark
-
+set cmdheight=2
+set signcolumn=yes
 " Spaces and tabs
 set expandtab     " Tabs are spaces
 set tabstop=2     " Number of visual spaces per tab
