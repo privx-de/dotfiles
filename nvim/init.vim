@@ -49,6 +49,7 @@ let g:airline_theme='onehalfdark' " Airline colorscheme
 let g:airline_powerline_fonts = 1 " Use Powerlinefonts
 
 let g:airline#extensions#tabline#enabled = 1        " Enable tabline
+let g:airline#extensions#languageclient#enabled = 0 " Disable languageclient
 let g:airline#extensions#tabline#buffer_nr_show = 1 " Show buffer number
 
 """
@@ -65,6 +66,7 @@ autocmd! FileType fzf setlocal nonumber norelativenumber
 
 " Shortcuts
 nnoremap <C-b> :Buffers<Cr>
+nnoremap <C-g> :Rg<CR>
 nnoremap <C-p> :Files<Cr>
 
 """
@@ -72,17 +74,18 @@ nnoremap <C-p> :Files<Cr>
 """ FZF most recently used files
 """
 
-Plug 'pbogut/fzf-mru.vim'
+" WIP
+" Plug 'pbogut/fzf-mru.vim'
 
-let g:fzf_mru_relative = 1 " Only relative files
+" let g:fzf_mru_relative = 1 " Only relative files
 
 """ MyRmu with bat preview
-let g:my_mru_preview = '--preview="' . stdpath('data')
-  \ . '/plugged/fzf.vim/bin/preview.sh {}"'
-command! MyMru execute 'FZFMru' . g:my_mru_preview
+" let g:my_mru_preview = '--preview="' . stdpath('data')
+"  \ . '/plugged/fzf.vim/bin/preview.sh {}"'
+" command! MyMru execute 'FZFMru' . g:my_mru_preview
 
 " Shortcut
-nnoremap <C-m> :MyMru<Cr>
+" nnoremap <C-m> :MyMru<Cr>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -123,8 +126,8 @@ Plug 'tpope/vim-fugitive'
 """ NCM2
 """
 
-Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
 
 autocmd BufEnter * call ncm2#enable_for_buffer() " Enable ncm2 for all buffers
 
@@ -134,12 +137,7 @@ set shortmess+=c                          " Suppress 'match x of y' messages
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
 inoremap <c-c> <ESC>
 
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new
-" line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-
-" Use <TAB> to select the popup menu:
+" Use <TAB> to select the popup menu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -164,11 +162,17 @@ Plug 'ncm2/ncm2-ultisnips'
 
 " Enter key trigger snippet expansion
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+imap <expr> <c-u> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_expand)", 'm')
 
-" ExpandTrigger default conflicts with pum movement
-let g:UltiSnipsExpandTrigger = '\<Plug>(placeholder)'
-let g:UltiSnipsJumpForwardTrigger  = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+" Map snippet expand
+smap <c-u> <Plug>(ultisnips_expand)
+
+let g:UltiSnipsEditSplit="vertical"           " Split on edit
+let g:UltiSnipsExpandTrigger =
+  \ "<Plug>(ultisnips_expand)"                " Expand Trigger
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"   " Jump forward
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>" " Jump backward
+let g:UltiSnipsRemoveSelectModeMappings = 0   " Remove default mappings
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,7 +191,7 @@ let g:LanguageClient_hasSnippetSupport = 1  " Enable snippet support
 
 " Project root makers
 let g:LanguageClient_rootMarkers = {
-  \   'terraform': ['.terraform', '.terraform.d']
+  \   'terraform': ['.terraform.d'],
   \ }
 
 " Language server commands
@@ -200,7 +204,11 @@ let g:LanguageClient_serverCommands = {
 " Set yaml schema
 function! YamlSetSchema()
   if &ft =~# '^yaml'
-    let config = json_decode(system("cat ~/.config/nvim/yaml/default.json"))
+    if &ft == 'yaml.ansible'
+      let config = json_decode(system("cat ~/.config/nvim/yaml/ansible.json"))
+    else
+      let config = json_decode(system("cat ~/.config/nvim/yaml/default.json"))
+    endif
     call LanguageClient#Notify('workspace/didChangeConfiguration', { 'settings': config })
   endif
 endfunction
@@ -215,8 +223,11 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Ansible
 """
-
+Plug 'phenomenes/ansible-snippets'
 Plug 'pearofducks/ansible-vim'
+"\{ 'do': './UltiSnips/generate.sh' }
+
+let g:ansible_unindent_after_newline = 1 " New line indentation reset
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,6 +248,12 @@ let g:better_whitespace_enabled=1 " Enable better whitespace by default
 let g:strip_only_modified_lines=1 " Strip only modified lines
 let g:strip_whitespace_confirm=0  " Do not confirm
 let g:strip_whitespace_on_save=1  " Strip Whitespace on save
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" indentLine
+"""
+"Plug 'Yggdroot/indentLine'
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
