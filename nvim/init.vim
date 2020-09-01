@@ -223,7 +223,6 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Ansible
 """
-Plug 'phenomenes/ansible-snippets'
 Plug 'pearofducks/ansible-vim'
 "\{ 'do': './UltiSnips/generate.sh' }
 
