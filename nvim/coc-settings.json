@@ -1,0 +1,50 @@
+{
+  "diagnostic.errorSign": "🔥",
+  "diagnostic.warningSign": "💀",
+  "diagnostic.infoSign": "💡",
+  "diagnostic.hintSign": "💐",
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "suggest.completionItemKindLabels": {
+        // "keyword": "",
+        // "variable": "",
+        // "value": "",
+        // "operator": "Ψ",
+        // "function": "⨕",
+        // "reference": "渚",
+        // "constant": "",
+        // "method": "",
+        // "struct": "פּ",
+        // "class": "",
+        // "interface": "",
+        // "text": "📝",
+        // "enum": "",
+        // "enumMember": "",
+        // "module": "",
+        // "color": "",
+        // "property": "",
+        // "field": "",
+        // "unit": "",
+        // "event": "鬒",
+        // "file": "📄",
+        // "folder": "📁",
+        // "snippet": "🧬"
+        // "typeParameter": "",
+        // "default": ""
+  },
+  "diagnostic.displayByAle": false,
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["terraform"],
+      "initializationOptions": {}
+    }
+  },
+  "snippets.snipmate.enable": false,
+  "snippets.textmateSnippetsRoots": ["~/.config/nvim/textmate"],
+  "snippets.ultisnips.enable": true,
+  "yaml.schemas": {
+    "kubernetes": "/*.yaml"
+  }
+}
