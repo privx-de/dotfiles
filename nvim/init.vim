@@ -50,8 +50,108 @@ let g:airline_powerline_fonts = 1 " Use Powerlinefonts
 
 let g:airline#extensions#tabline#enabled = 1        " Enable tabline
 let g:airline#extensions#languageclient#enabled = 0 " Disable languageclient
+" @fixme buffer numbers only for openfiles
 let g:airline#extensions#tabline#buffer_nr_show = 1 " Show buffer number
 
+let airline#extensions#coc#error_symbol = '🔥 '
+let airline#extensions#coc#warning_symbol = '💀 '
+
+
+set maxmempattern=2048
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Tags
+"""
+Plug 'ludovicchabant/vim-gutentags'
+
+let g:gutentags_add_default_project_roots = 0 " Don't use default project roots
+let g:gutentags_project_root = ['.git']
+let g:gutentags_cache_dir = expand('~/.cache/nvim/ctags')
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
+
+" @todo migrate into .ctags
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+
+command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
+
+Plug  'majutsushi/tagbar'
+
+let g:tagbar_type_terraform = {
+  \ 'ctagstype' : 'terraform',
+  \ 'kinds' : [
+  \   'd:data sources',
+  \   'm:modules',
+  \   'o:outputs',
+  \   'p:providers',
+  \   'r:resources',
+  \   't:tfvars',
+  \   'v:variables'
+  \ ],
+  \ 'sort' : 0
+  \ }
+
+" Tagbar toggle
+nmap tt :TagbarToggle<CR>
+
+
+Plug 'wsdjeg/vim-todo'
+
+let g:todo_string = strftime("%Y-%m-%d %H:%M") . ' - Marius Preyers:'
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ FZF
@@ -111,7 +211,7 @@ endfunction
 command! MyYanks call fzf#run(fzf#wrap({
   \ 'source': GetYanks(),
   \ 'sink': function('UseYanks')}))
-nnoremap <C-y> :MyYanks<Cr>
+" nnoremap <C-y> :MyYanks<Cr>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -123,119 +223,85 @@ Plug 'tpope/vim-fugitive'
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" NCM2
+""" ALE
 """
 
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
+"Plug 'dense-analysis/ale'
+"let g:ale_completion_enabled  = 0
+"let g:ale_disable_lsp         = 1
+"let g:ale_sign_column_always  = 1
 
-autocmd BufEnter * call ncm2#enable_for_buffer() " Enable ncm2 for all buffers
-
-set completeopt=noinsert,menuone,noselect " Ncm2PopupOpen for more information
-set shortmess+=c                          " Suppress 'match x of y' messages
-
-" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <c-c> <ESC>
-
-" Use <TAB> to select the popup menu
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-"""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" NCM2 Sources
-"""
-
-Plug 'Shougo/neco-vim'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-github'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-vim'
-
-"""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" ncm2 Snippet Support
-"""
-
-Plug 'SirVer/ultisnips'
-Plug 'ncm2/ncm2-ultisnips'
-
-" Enter key trigger snippet expansion
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-imap <expr> <c-u> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_expand)", 'm')
-
-" Map snippet expand
-smap <c-u> <Plug>(ultisnips_expand)
-
-let g:UltiSnipsEditSplit="vertical"           " Split on edit
-let g:UltiSnipsExpandTrigger =
-  \ "<Plug>(ultisnips_expand)"                " Expand Trigger
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"   " Jump forward
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>" " Jump backward
-let g:UltiSnipsRemoveSelectModeMappings = 0   " Remove default mappings
-
-"""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" LanguageClient-neovim
-"""
-
-Plug 'autozimu/LanguageClient-neovim', {
-  \   'branch': 'next',
-  \   'do': 'bash install.sh',
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
+let g:coc_global_extensions  = [
+\   'coc-css',
+\   'coc-diagnostic',
+\   'coc-go',
+\   'coc-highlight',
+\   'coc-html',
+\   'coc-json',
+\   'coc-pairs',
+\   'coc-python',
+\   'coc-template',
+\   'coc-sh',
+\   'coc-snippets',
+\   'coc-sql',
+\   'coc-xml',
+\   'coc-yaml',
+\   'coc-yank',
+\ ]
+let g:coc_filetype_map = {
+  \ 'ansible': 'yaml',
+  \ 'helm': 'yaml',
   \ }
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 
-let g:LanguageClient_autoStart = 1          " Enable autostart
-" let g:LanguageClient_completionPreferTextEdit = 1
-let g:LanguageClient_diagnosticsEnable = 0  " Disable diagnostic
-let g:LanguageClient_hasSnippetSupport = 1  " Enable snippet support
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
 
-" Project root makers
-let g:LanguageClient_rootMarkers = {
-  \   'terraform': ['.terraform.d'],
-  \ }
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-" Language server commands
-let g:LanguageClient_serverCommands = {
-  \   'terraform': ['terraform-lsp'],
-  \   'yaml': ['yaml-language-server', '--stdio'],
-  \   'yaml.ansible': ['yaml-language-server', '--stdio'],
-  \ }
-
-" Set yaml schema
-function! YamlSetSchema()
-  if &ft =~# '^yaml'
-    if &ft == 'yaml.ansible'
-      let config = json_decode(system("cat ~/.config/nvim/yaml/ansible.json"))
-    else
-      let config = json_decode(system("cat ~/.config/nvim/yaml/default.json"))
-    endif
-    call LanguageClient#Notify('workspace/didChangeConfiguration', { 'settings': config })
-  endif
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Trigger yaml schema
-augroup LanguageClient_config
-  autocmd!
-  autocmd User LanguageClientStarted call YamlSetSchema()
-augroup END
+let g:coc_snippet_next = '<tab>'
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Ansible
 """
-Plug 'pearofducks/ansible-vim'
-"\{ 'do': './UltiSnips/generate.sh' }
 
-let g:ansible_unindent_after_newline = 1 " New line indentation reset
+"Plug 'pearofducks/ansible-vim'
+
+"let g:ansible_unindent_after_newline = 1 " New line indentation reset
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" Terraform
+""" Hashivim
 """
 
+Plug 'hashivim/vim-packer'
 Plug 'hashivim/vim-terraform'
+Plug 'hashivim/vim-vagrant'
 
 let g:terraform_align=1 " Align settings automatically
+
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Helm/Kubernetes
+"""
+
+Plug 'towolf/vim-helm'
+autocmd BufRead,BufNewFile Chart.yaml,values.yaml set ft=helm
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,7 +365,7 @@ set nowrap                " Don't wrap lines
 set number                " Enable line numbers
 set relativenumber
 set wildmenu              " Enable command completion
-set wildmode=longest:full " Tab to longest match
+" set wildmode=longest:full " Tab to longest match
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -311,4 +377,14 @@ noremap <silent> <c-_> :let @/ = ""<CR>
 
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""
+""" Customize colors
+
+hi CocErrorSign guifg=#e06c75
+"hi CocInfoSign guibg=#353b45
+hi CocWarningSign guifg=#e5c07b
+hi Pmenu guifg=#dcdfe4 guibg=#313640 gui=NONE
+hi PmenuSel guifg=#313640 guibg=#61afef gui=NONE
+hi PmenuSbar guibg=#474e5d
+hi PmenuThumb guibg=#313640
+
+set pumheight=16
