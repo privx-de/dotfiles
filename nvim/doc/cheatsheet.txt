@@ -1,0 +1,24 @@
+Cheatsheet *cs* <<<
+
+Buffers
+  :bd - deletes the current buffer, error if there are unwritten changes
+
+Edit and Move
+
+  B - Move backward to the beginning of a word. (whitespace)
+  W - Move forward to the beginning of a word. (whitespace)
+
+Delete
+
+  dB - delete word backward
+  dW - delete word forward
+
+Marks
+
+  m,        - Place the next available mark
+  m-        - Delete all marks from the current line
+  m<Space>  - Delete all marks from the current buffer
+
+  'a - jump to line of mark a (first non-blank character in line)
+  ]' - jump to next line with a lowercase mark
+  [' - jump to previous line with a lowercase mark

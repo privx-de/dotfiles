@@ -4,7 +4,8 @@
   "diagnostic.infoSign": "💡",
   "diagnostic.hintSign": "💐",
   "diagnostic-languageserver.filetypes": {
-    "sh": "shellcheck"
+    "sh": "shellcheck",
+    "tf": "tflint"
   },
   "suggest.completionItemKindLabels": {
         // "keyword": "",

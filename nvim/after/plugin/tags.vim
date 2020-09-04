@@ -23,7 +23,7 @@ command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir 
 """
 
 " Markdown
-" @idea use markdown to ctags
+" IDEA: use markdown to ctags
 " https://github.com/jszakmeister/markdown2ctags
 let g:tagbar_type_markdown = {
   \ 'ctagstype' : 'markdown',

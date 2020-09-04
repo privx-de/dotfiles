@@ -1,6 +1,13 @@
 set nocompatible
 set hidden
 
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Globale variables
+"""
+
+let g:nvim_config_dir = expand('~/.config/nvim')
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Install vim-plug
 """
@@ -64,15 +71,17 @@ set maxmempattern=2048
 """ Plugins
 """
 
+" Markdown
+Plug 'plasticboy/vim-markdown'
+
+" Marks
+Plug 'kshenoy/vim-signature'
+
 " Tags
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 
-"""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" Plugins
-"""
-
+" Todo
 Plug 'wsdjeg/vim-todo'
 
 let g:todo_string = strftime("%Y-%m-%d %H:%M") . ' - Marius Preyers:'
@@ -160,22 +169,23 @@ Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 let g:coc_global_extensions  = [
-\   'coc-css',
-\   'coc-diagnostic',
-\   'coc-go',
-\   'coc-highlight',
-\   'coc-html',
-\   'coc-json',
-\   'coc-pairs',
-\   'coc-python',
-\   'coc-template',
-\   'coc-sh',
-\   'coc-snippets',
-\   'coc-sql',
-\   'coc-xml',
-\   'coc-yaml',
-\   'coc-yank',
-\ ]
+  \   'coc-css',
+  \   'coc-diagnostic',
+  \   'coc-go',
+  \   'coc-highlight',
+  \   'coc-html',
+  \   'coc-json',
+  \   'coc-pairs',
+  \   'coc-python',
+  \   'coc-template',
+  \   'coc-sh',
+  " FIXME 2020-09-04 16:10 - Marius Preyers UtilSnips slows vim start
+  \   'coc-snippets',
+  \   'coc-sql',
+  \   'coc-xml',
+  \   'coc-yaml',
+  \   'coc-yank',
+  \ ]
 let g:coc_filetype_map = {
   \ 'ansible': 'yaml',
   \ 'helm': 'yaml',
