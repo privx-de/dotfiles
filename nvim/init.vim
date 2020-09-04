@@ -168,7 +168,8 @@ Plug 'tpope/vim-fugitive'
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
-let g:coc_global_extensions  = [
+" FIXME 2020-09-04 16:10 - Marius Preyers UtilSnips slows vim start
+let g:coc_global_extensions = [
   \   'coc-css',
   \   'coc-diagnostic',
   \   'coc-go',
@@ -179,7 +180,6 @@ let g:coc_global_extensions  = [
   \   'coc-python',
   \   'coc-template',
   \   'coc-sh',
-  " FIXME 2020-09-04 16:10 - Marius Preyers UtilSnips slows vim start
   \   'coc-snippets',
   \   'coc-sql',
   \   'coc-xml',

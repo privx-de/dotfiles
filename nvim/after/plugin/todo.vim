@@ -17,3 +17,4 @@ let g:todo_timestamp_string = strftime("%Y-%m-%d %H:%M") . ' - Marius Preyers'
 " Todo comment signs
 let g:todo_comment_signs    = '#'
 autocmd FileType terraform let g:todo_comment_signs = '//'
+autocmd FileType vim let g:todo_comment_signs = '"'
