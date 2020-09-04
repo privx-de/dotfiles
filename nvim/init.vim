@@ -173,7 +173,6 @@ let g:coc_global_extensions = [
   \   'coc-css',
   \   'coc-diagnostic',
   \   'coc-go',
-  \   'coc-highlight',
   \   'coc-html',
   \   'coc-json',
   \   'coc-pairs',
