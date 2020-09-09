@@ -84,8 +84,6 @@ Plug 'majutsushi/tagbar'
 " Todo
 Plug 'wsdjeg/vim-todo'
 
-let g:todo_string = strftime("%Y-%m-%d %H:%M") . ' - Marius Preyers:'
-
 """
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ FZF
@@ -172,6 +170,7 @@ Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 let g:coc_global_extensions = [
   \   'coc-css',
   \   'coc-diagnostic',
+  \   'coc-docker',
   \   'coc-go',
   \   'coc-html',
   \   'coc-json',
